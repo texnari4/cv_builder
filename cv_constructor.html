@@ -1,0 +1,1401 @@
+<!doctype html>
+<html lang="ru"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Viktor Ivanchikov — Resume</title>
+
+  <style>
+    :root{
+      --bg: #f5f5f7;          /* Apple-like background */
+      --card: #ffffff;
+      --fg: #1d1d1f;
+      --muted: rgba(29,29,31,.68);
+      --muted2: rgba(29,29,31,.55);
+      --line: rgba(29,29,31,.10);
+      --shadow: 0 10px 30px rgba(0,0,0,.06);
+      --radius: 18px;
+      --radius2: 14px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      background: var(--bg);
+      color: var(--fg);
+      font: 15px/1.55 system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+            Segoe UI, Roboto, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 26px 16px 60px;
+    }
+
+    .uiToggle{
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 999;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 18px rgba(0,0,0,.10);
+    }
+
+    body.ui-hidden .controls,
+    body.ui-hidden .hint,
+    body.ui-hidden .footer{
+      display: none !important;
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    header{
+      padding: 22px 22px 18px;
+      display:flex;
+      gap: 18px;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .brandRow{
+      display:flex;
+      gap: 16px;
+      align-items: center;
+      min-width: 320px;
+      flex: 1 1 auto;
+    }
+
+    .avatarWrap{
+      position: relative;
+      width: 98px;
+      height: 98px;
+      flex: 0 0 auto;
+    }
+
+    .avatar{
+      width: 98px;
+      height: 98px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #fff, #f2f2f4);
+      display:block;
+      object-fit: cover;
+    }
+
+    .avatarBtn{
+      position:absolute;
+      right:-8px;
+      bottom:-8px;
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      display:none; /* shown only in edit mode */
+      align-items:center;
+      justify-content:center;
+      box-shadow: 0 8px 18px rgba(0,0,0,.08);
+    }
+    .avatarBtn:hover{ background:#fff; }
+    .avatarBtn svg{ width: 18px; height: 18px; }
+
+    .who{
+      display:flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 220px;
+    }
+
+    .name{
+      font-size: 28px;
+      font-weight: 760;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+    .role{
+      margin:0;
+      color: var(--muted);
+      font-weight: 650;
+      letter-spacing: .01em;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      color: var(--muted2);
+      font-size: 13px;
+    }
+    .meta a{
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(29,29,31,.25);
+    }
+    .meta a:hover{ border-bottom-style: solid; }
+
+    .controls{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex: 0 0 auto;
+      margin-top: 6px;
+    }
+
+    button{
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.9);
+      color: var(--fg);
+      border-radius: 14px;
+      padding: 9px 12px;
+      cursor:pointer;
+      font-weight: 650;
+      letter-spacing: .01em;
+    }
+    button:hover{ background:#fff; }
+    button.primary{
+      background: #1d1d1f;
+      border-color: #1d1d1f;
+      color: #fff;
+    }
+    button.primary:hover{ background:#000; }
+
+    .hint{
+      padding: 0 22px 18px;
+      margin:0;
+      color: var(--muted2);
+      font-size: 13px;
+    }
+
+    .divider{
+      height: 1px;
+      background: var(--line);
+      margin: 0;
+    }
+
+    main{
+      padding: 20px 22px 22px;
+      display:grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 22px;
+    }
+    @media (max-width: 900px){
+      main{ grid-template-columns: 1fr; }
+      .controls{ width:100%; justify-content:flex-start; }
+    }
+
+    section{ margin-bottom: 16px; }
+    h2{
+      margin: 0 0 10px;
+      font-size: 12px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+      outline: none;
+      border-radius: 6px;
+      padding: 4px 8px;
+      margin-left: -8px;
+      margin-right: -8px;
+      transition: background-color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    h2[contenteditable="true"] {
+      background: rgba(100, 150, 200, 0.1);
+      cursor: text;
+    }
+    h2[contenteditable="true"]:focus {
+      background: rgba(100, 150, 200, 0.2);
+      outline: 1px solid rgba(100, 150, 200, 0.3);
+    }
+
+    .block{
+      color: var(--fg);
+    }
+
+    .item{
+      padding: 12px 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius2);
+      background: rgba(250,250,252,.7);
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .item .top{
+      display:flex;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items: baseline;
+    }
+    .title{
+      font-weight: 760;
+      letter-spacing: -0.01em;
+    }
+    .where{
+      color: var(--muted);
+      font-weight: 650;
+      margin-top: 2px;
+    }
+    .when{
+      color: var(--muted2);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    ul{ margin: 10px 0 0 18px; padding:0; }
+    li{ margin: 6px 0; }
+
+    .chips{
+      display:flex; gap:8px; flex-wrap:wrap;
+    }
+    .chip{
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 13px;
+      color: rgba(29,29,31,.88);
+      white-space:nowrap;
+    }
+
+    .small{ color: var(--muted2); font-size: 13px; margin-top: 8px; }
+
+    .two-col{ columns: 2; column-gap: 16px; }
+    @media (max-width: 520px){ .two-col{ columns: 1; } }
+
+    /* Inline editing highlight */
+    .editable[contenteditable="true"]{
+      outline: 2px solid rgba(10,132,255,.35);
+      border-radius: 10px;
+      padding: 2px 6px;
+      margin: -2px -6px;
+      background: rgba(10,132,255,.06);
+    }
+
+    .footer{
+      margin-top: 14px;
+      color: var(--muted2);
+      font-size: 13px;
+      padding: 0 6px;
+    }
+
+    /* Block controls */
+    .block-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      padding: 0;
+    }
+
+    .block-controls {
+      display: flex;
+      gap: 4px;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      position: absolute;
+      top: -28px;
+      right: 0;
+      z-index: 10;
+    }
+
+    .item:hover .block-controls,
+    section:hover .block-controls,
+    .item.editing .block-controls,
+    section.editing .block-controls {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .block-controls button {
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 8px;
+      background: rgba(255,100,100,.1);
+      border: 1px solid rgba(255,100,100,.3);
+      color: rgba(255,80,80,.8);
+      cursor: pointer;
+      transition: all 0.2s;
+      min-width: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .block-controls button:hover {
+      background: rgba(255,100,100,.2);
+      border-color: rgba(255,100,100,.5);
+      transform: scale(1.1);
+    }
+
+    .block-controls button.add {
+      background: rgba(100,200,100,.1);
+      border-color: rgba(100,200,100,.3);
+      color: rgba(80,180,80,.8);
+    }
+
+    .block-controls button.add:hover {
+      background: rgba(100,200,100,.2);
+      border-color: rgba(100,200,100,.5);
+    }
+
+    /* Hide add button outside edit mode */
+    body:not(.editing-active) .block-controls button.add {
+      display: none;
+    }
+
+    /* Move up/down buttons */
+    .block-controls button.move-up,
+    .block-controls button.move-down {
+      background: rgba(100,150,200,.1);
+      border-color: rgba(100,150,200,.3);
+      color: rgba(80,130,180,.8);
+      font-size: 10px;
+      padding: 3px 6px;
+    }
+
+    .block-controls button.move-up:hover,
+    .block-controls button.move-down:hover {
+      background: rgba(100,150,200,.2);
+      border-color: rgba(100,150,200,.5);
+    }
+
+    /* Animations */
+    @keyframes slideInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideOutUp {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes fadeInScale {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes fadeOutScale {
+      from {
+        opacity: 1;
+        transform: scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+    }
+
+    .item.new-item {
+      animation: slideInDown 0.3s ease-out;
+    }
+
+    .item.deleting {
+      animation: slideOutUp 0.3s ease-out forwards;
+    }
+
+    section.new-section {
+      animation: fadeInScale 0.4s ease-out;
+    }
+
+    section.deleting {
+      animation: fadeOutScale 0.3s ease-out forwards;
+    }
+
+    /* Drag and drop - улучшенное визуальное отображение */
+    .draggable-item {
+      position: relative;
+      cursor: grab;
+      transition: all 0.2s;
+    }
+
+    .draggable-item:active {
+      cursor: grabbing;
+    }
+
+    .dragging {
+      opacity: 0.6;
+      background: rgba(10,132,255,.15) !important;
+      border: 2px dashed rgba(10,132,255,.5) !important;
+      transform: scale(0.98);
+      z-index: 1000;
+    }
+
+    .drop-target {
+      background: rgba(10,132,255,.05);
+      border: 2px solid rgba(10,132,255,.3);
+      border-radius: 8px;
+      margin: 8px 0;
+      min-height: 20px;
+      padding: 4px;
+    }
+
+    .drop-target.active {
+      background: rgba(10,132,255,.15);
+      border-color: rgba(10,132,255,.6);
+      box-shadow: 0 0 8px rgba(10,132,255,.2);
+    }
+
+    /* Section header controls */
+    .section-toolbar {
+      display: flex;
+      gap: 6px;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+      flex-shrink: 0;
+    }
+
+    section:hover .section-toolbar {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .section-toolbar button {
+      padding: 6px 10px;
+      font-size: 11px;
+      border-radius: 6px;
+      background: rgba(100,200,100,.1);
+      border: 1px solid rgba(100,200,100,.3);
+      color: rgba(80,180,80,.8);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .section-toolbar button:hover {
+      background: rgba(100,200,100,.2);
+      border-color: rgba(100,200,100,.5);
+      transform: scale(1.05);
+    }
+
+    /* New section dialog */
+    .new-section-dialog {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.15);
+      z-index: 10000;
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 300px;
+    }
+
+    .new-section-dialog.show {
+      display: flex;
+      animation: fadeInScale 0.3s ease-out;
+    }
+
+    .new-section-dialog h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .new-section-dialog input {
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .new-section-dialog .dialog-buttons {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .new-section-dialog .dialog-buttons button {
+      padding: 8px 16px;
+    }
+
+    .dialog-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,.1);
+      z-index: 9999;
+      display: none;
+    }
+
+    .dialog-overlay.show {
+      display: block;
+    }
+
+    /* Print */
+    @media print{
+      @page{
+        size: A4;
+        margin: 9mm;
+      }
+      body{ background:#fff; }
+      .wrap{ padding: 0; max-width: 100%; }
+      .card{
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+      }
+      .controls, .hint, .footer, .avatarBtn{ display:none !important; }
+      body{
+        font-size: 12px;
+        line-height: 1.38;
+      }
+      header{
+        padding: 0 0 8px;
+        gap: 12px;
+      }
+      .name{ font-size: 25px; }
+      .role{ font-size: 14px; }
+      .meta{ margin-top: 6px; font-size: 11px; }
+      h2{ margin: 0 0 7px; font-size: 10px; }
+      main{
+        padding: 8px 0 0;
+        gap: 14px;
+      }
+      section{ margin-bottom: 9px; }
+      .item{
+        margin-bottom: 8px;
+        padding: 8px 9px;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+      ul{ margin: 7px 0 0 16px; }
+      li{ margin: 3px 0; }
+      .chip{
+        padding: 4px 8px;
+        font-size: 11px;
+      }
+      .small{ margin-top: 5px; font-size: 11px; }
+      .divider{ display:none; }
+      .item{ background:#fff; }
+      a{ text-decoration:none; color:inherit; border:0; }
+      .uiToggle{ display:none !important; }
+      .block-controls { display:none !important; }
+      .drag-handle { display:none !important; }
+      .draggable { cursor: auto; }
+    }
+  </style>
+</head>
+
+<body class="editing-active">
+  <button id="uiToggle" class="uiToggle" type="button" aria-label="Скрыть подсказки и кнопки" title="Скрыть подсказки и кнопки">UI</button>
+  <div class="wrap">
+    <div class="card" id="root">
+      <header>
+        <div class="brandRow">
+          <div class="avatarWrap">
+            <img id="avatar" class="avatar" alt="Profile photo" src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22160%22%20height%3D%22160%22%20viewBox%3D%220%200%20160%20160%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ffffff%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23f2f2f4%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3C%2Fdefs%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Crect%20width%3D%22160%22%20height%3D%22160%22%20rx%3D%2228%22%20fill%3D%22url(%23g)%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ccircle%20cx%3D%2280%22%20cy%3D%2268%22%20r%3D%2226%22%20fill%3D%22rgba(29%2C29%2C31%2C.18)%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M32%20140c10-28%2036-42%2048-42s38%2014%2048%2042%22%20fill%3D%22rgba(29%2C29%2C31%2C.18)%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3C%2Fsvg%3E">
+            <button id="avatarBtn" class="avatarBtn" type="button" aria-label="Change photo" title="Change photo" style="display: flex;">
+              <!-- camera icon -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3l2-3h8l2 3h3a2 2 0 0 1 2 2z"></path>
+                <circle cx="12" cy="13" r="4"></circle>
+              </svg>
+            </button>
+            <input id="avatarInput" type="file" accept="image/*" style="display:none">
+          </div>
+
+          <div class="who">
+            <h1 class="name editable" data-key="name" contenteditable="true">Viktor Ivanchikov</h1>
+            <p class="role editable" data-key="role" contenteditable="true">Lead System Engineer • DevOps Engineer</p>
+            <div class="meta">
+              <span class="editable" data-key="location" contenteditable="true">Belarus (Remote / Relocation)</span>
+              <span>•</span>
+              <span class="editable" data-key="email" contenteditable="true">texnari4@gmail.com</span>
+              <span>•</span>
+              <a class="editable" data-key="linkedin" href="https://www.linkedin.com/in/viktor-ivanchikov-9b7b9a16a/" target="_blank" rel="noreferrer" contenteditable="true">
+                linkedin.com/in/viktor-ivanchikov-9b7b9a16a
+              </a>
+              <span>•</span>
+              <span class="editable" data-key="phone" contenteditable="true">+375 44 776 87 47</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="toggleEdit" class="" type="button">Готово</button>
+          <button id="save" type="button" class="primary">Сохранить</button>
+          <button id="reset" type="button">Сбросить</button>
+          <button id="addSectionBtn" type="button" style="display: block;">+ Секция</button>
+        </div>
+      </header>
+
+      <p class="hint">Редактирование: нажми “Редактировать”, измени текст, затем “Сохранить”. Фото меняется кнопкой камеры. PDF: Ctrl/Cmd+P → Save as PDF.</p>
+      <div class="divider"></div>
+
+      <main>
+        <div>
+          <section class="editing">
+            <h2 contenteditable="true">Summary<div class="section-toolbar"><button class="add" title="Добавить элемент" type="button">+ Item</button></div></h2>
+            <div class="block editable" data-key="summary" contenteditable="true"><div>System Engineer / DevOps Engineer with 10+ years of experience in product and enterprise environments, including gamedev. Strong in Linux&nbsp;and Windows&nbsp;infrastructure&nbsp;administration,&nbsp;repeatable deployments,&nbsp;monitoring, incident handling, automation, and operational reliability. Led small teams, participated in hiring and performance review, and contributed to architecture decisions. Focused on practical improvements in stability, visibility, and cost efficiency.</div></div>
+          </section>
+
+          <section class="editing">
+            <h2 contenteditable="true">Experience<div class="section-toolbar"><button class="add" title="Добавить элемент" type="button">+ Item</button></div></h2>
+
+            <div class="item draggable editable editing" data-key="exp1" contenteditable="true" draggable="true">
+              <div class="top"><div><div class="title">Lead System Engineer</div>
+                  <div class="where">Vizor Games</div>
+                </div>
+                <div class="when">May 2022 — Present</div>
+              <div class="block-controls"><button class="delete" title="Удалить блок" type="button">×</button></div></div>
+              <ul>
+                <li><p class="ds-markdown-paragraph" style="margin-top: 0px !important; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;"><span style="font-weight: 600;">Infrastructure ownership for production services</span>, with a focus on supporting&nbsp;<span style="font-weight: 600;">mobile backends and game services</span>&nbsp;(Linux, virtualization, containerization with Docker, networking, monitoring, alerting, and log collection).</p></li><li><p class="ds-markdown-paragraph" style="margin-top: 0px !important; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;">Designed and implemented internal tools: a VPN service, and a comprehensive portal for equipment, license, and employee accounting with role-based access control (RBAC).</p></li><li><p class="ds-markdown-paragraph" style="margin-top: 0px !important; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;"><span style="font-weight: 600;">Developed and maintained CI/CD pipelines</span>&nbsp;for automated build, test, and deployment processes. Wrote automation and scripting solutions&nbsp;<span style="font-weight: 600;">(Python, Bash, PowerShell)</span>&nbsp;to eliminate manual operations and improve development velocity.</p></li><li><p class="ds-markdown-paragraph" style="margin-top: 0px !important; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;">Collaborated with development teams to implement Service Level Objectives (SLOs) and error budgets, fostering a culture of shared responsibility for service reliability.</p></li>
+              </ul>
+            </div>
+
+            <div class="item draggable editable editing" data-key="exp2" contenteditable="true" draggable="true">
+              <div class="top"><div><div class="title">Linux Engineer</div>
+                  <div class="where">Vizor Games</div>
+                </div>
+                <div class="when">May 2020 — Oct 2023</div>
+              <div class="block-controls"><button class="delete" title="Удалить блок" type="button">×</button></div></div>
+              <ul>
+                <li><p class="ds-markdown-paragraph" style="margin-top: 0px !important; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;">Administered and optimized large-scale Linux environments, ensuring high availability and performance of core services.</p></li><li><p class="ds-markdown-paragraph" style="margin-top: 0px !important; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;"><span style="font-weight: 600;">Implemented and maintained the internal Monitoring, Alerting, and Log Collection system</span>&nbsp;using the&nbsp;<span style="font-weight: 600;">Prometheus, Grafana, Loki, and Alertmanager</span>&nbsp;stack.</p></li><li><p class="ds-markdown-paragraph" style="margin-top: 0px !important; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;">Automated configuration management and infrastructure provisioning using&nbsp;<span style="font-weight: 600;">Ansible</span>, significantly reducing configuration drift and deployment time.</p></li><li><p class="ds-markdown-paragraph" style="margin-top: 0px !important; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;">Managed hardware procurement, specification planning, and initial setup for infrastructure scaling.</p></li>
+              </ul>
+            </div>
+
+            <div class="item draggable editable editing" data-key="exp3" contenteditable="true" draggable="true">
+              <div class="top"><div><div class="title">Trainee Systems Engineer (Cloud &amp; DevOps)</div>
+                  <div class="where">EPAM Systems</div>
+                </div>
+                <div class="when">Jan 2020 — May 2020</div>
+              <div class="block-controls"><button class="delete" title="Удалить блок" type="button">×</button></div></div>
+              <ul>
+                <li>Azure DevOps, Azure fundamentals, CI/CD basics, ARM/DSC, Kubernetes fundamentals, GitLab, Docker</li>
+              </ul>
+            </div><div class="item draggable editable" data-key="exp1" contenteditable="true" draggable="true">
+              <div class="top"><div><div class="title">Lead System Engineer</div>
+                  <div class="where">Vizor Games</div>
+                </div>
+                <div class="when">May 2022 — Present</div>
+              </div>
+              <ul>
+                <li><p class="ds-markdown-paragraph" style="margin-top: 0px !important; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;"><span style="font-weight: 600;">Infrastructure ownership for production services</span>, with a focus on supporting&nbsp;<span style="font-weight: 600;">mobile backends and game services</span>&nbsp;(Linux, virtualization, containerization with Docker, networking, monitoring, alerting, and log collection).</p></li><li><p class="ds-markdown-paragraph" style="margin-top: 0px !important; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;">Designed and implemented internal tools: a VPN service, and a comprehensive portal for equipment, license, and employee accounting with role-based access control (RBAC).</p></li><li><p class="ds-markdown-paragraph" style="margin-top: 0px !important; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;"><span style="font-weight: 600;">Developed and maintained CI/CD pipelines</span>&nbsp;for automated build, test, and deployment processes. Wrote automation and scripting solutions&nbsp;<span style="font-weight: 600;">(Python, Bash, PowerShell)</span>&nbsp;to eliminate manual operations and improve development velocity.</p></li><li><p class="ds-markdown-paragraph" style="margin-top: 0px !important; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;">Collaborated with development teams to implement Service Level Objectives (SLOs) and error budgets, fostering a culture of shared responsibility for service reliability.</p></li>
+              </ul>
+            <div class="block-controls"><button class="move-up" title="Переместить вверх" type="button">↑</button><button class="move-down" title="Переместить вниз" type="button">↓</button><button class="delete" title="Удалить блок" type="button">✕</button></div></div>
+
+            <!-- <div class="item editable" data-key="exp4" contenteditable="true"></div>
+          </section> -->
+
+          <section class="editing">
+            <h2 contenteditable="true">Selected Impact<div class="section-toolbar"><button class="add" title="Добавить элемент" type="button">+ Item</button></div></h2>
+            <div class="item draggable editable editing" data-key="proj1" contenteditable="true" draggable="true">
+              <div class="top"><span class="drag-handle" title="Перетащи для перемещения"><span style="font-weight: 760; letter-spacing: -0.01em; font-family: system-ui, -apple-system, BlinkMacSystemFont, &quot;SF Pro Display&quot;, &quot;SF Pro Text&quot;, &quot;Segoe UI&quot;, Roboto, Arial, sans-serif;">Automated Cloud Infrastructure &amp; CI/CD | 2025</span></span>
+                <div class="when">2025</div>
+              <div class="block-controls"><button class="delete" title="Удалить блок" type="button">×</button></div></div>
+              <ul>
+                <li><p class="ds-markdown-paragraph" style="margin-top: 0px !important; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;"><span style="font-weight: 600;">Provisioned a scalable cloud environment using Terraform</span>, demonstrating Infrastructure as Code (IaC) principles for application deployment.</p></li><li><p class="ds-markdown-paragraph" style="margin-top: 0px !important; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;">Deployed a small application stack on this infrastructure, fully automated via&nbsp;<span style="font-weight: 600;">CI/CD pipelines in GitHub Actions</span>.</p></li><li><p class="ds-markdown-paragraph" style="margin-top: 0px !important; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;">CI pipeline automatically builds a&nbsp;<span style="font-weight: 600;">Docker</span>&nbsp;image, runs tests, and pushes it to a registry, while the CD pipeline rolls out updates to the cloud environment with zero downtime.</p></li>
+                <li>Monitoring (Prometheus/Grafana)</li>
+              </ul>
+              <div class="small">Add link: GitHub / GitLab repo</div>
+            </div>
+          </section>
+        </section></div>
+
+        <aside>
+          <section class="editing">
+            <h2 contenteditable="true">Skills<div class="section-toolbar"><button class="add" title="Добавить элемент" type="button">+ Item</button></div></h2>
+            <div class="chips editable" data-key="skills" contenteditable="true">
+              <span class="chip">Linux (Ubuntu//CentOS)</span>
+              <span class="chip">Windows Server</span>
+              <span class="chip">Azure</span>
+              <span class="chip">Azure DevOps CI/CD</span>
+              <span class="chip">Docker</span>
+              <span class="chip">Kubernetes (deployment/upgrades)</span>
+              <span class="chip">LXC</span>
+              <span class="chip">Proxmox</span>
+              <span class="chip">Hyper-V</span>
+              <span class="chip">Zabbix / Grafana</span>
+              <span class="chip">Nginx</span>
+              <span class="chip">Networking (VPN/VLAN)</span>
+              <span class="chip">Bash</span>
+              <span class="chip">PowerShell</span>
+              <span class="chip">Python</span><span class="chip">JavaScript</span><span class="chip"><br></span><span class="chip"><span class="chip">Technical Leadership</span></span>
+            </div>
+          </section>
+
+          <section class="editing">
+            <h2 contenteditable="true">Tools / Tech<div class="section-toolbar"><button class="add" title="Добавить элемент" type="button">+ Item</button></div></h2>
+            <div class="block editable two-col" data-key="tools" contenteditable="true">
+              Zabbix • Docker&nbsp;•&nbsp;&nbsp;Kubernetes (Lab) • VMware ESXi • Proxmox • Hyper-V • Nginx • Apache • ARM • DSC • PostgreSQL • MySQL • MS SQL • Oracle • MikroTik • Aruba • Zyxel
+            </div>
+          </section>
+
+          <div></div><section class="editing">
+            <h2 contenteditable="true">Education<div class="section-toolbar"><button class="add" title="Добавить элемент" type="button">+ Item</button></div></h2>
+            <div class="item draggable editable editing" data-key="edu1" contenteditable="true" draggable="true">
+              <div class="top"><div><div class="title">EPAM Training Center</div>
+                  <div class="where">Cloud &amp; DevOps</div>
+                </div>
+                <div class="when">2019</div>
+              <div class="block-controls"><button class="delete" title="Удалить блок" type="button">×</button></div></div>
+            </div><div class="item draggable editable editing" data-key="edu1" contenteditable="true" draggable="true">
+              <div class="top"><div><div class="title">EPAM Training Center</div>
+                  <div class="where">Cloud &amp; DevOps</div>
+                </div>
+                <div class="when">2019</div>
+              <div class="block-controls"><button class="delete" title="Удалить блок" type="button">×</button></div></div>
+            </div>
+
+            <div class="item draggable editable editing" data-key="edu2" contenteditable="true" draggable="true">
+              <div class="top"><div><div class="title">IT Academy</div>
+                  <div class="where">System Administrator</div>
+                </div>
+                <div class="when">2019</div>
+              <div class="block-controls"><button class="delete" title="Удалить блок" type="button">×</button></div></div>
+            </div>
+          </section>
+
+          <section class="editing">
+            <h2 contenteditable="true">Languages<div class="section-toolbar"><button class="add" title="Добавить элемент" type="button">+ Item</button></div></h2>
+            <div class="block editable" data-key="lang" contenteditable="true">
+              English — Professional working proficiency<br></div>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <div class="footer">
+      Советы: для PDF используй печать браузера (Ctrl/Cmd+P). Для ATS-резюме лучше делать отдельный PDF в 1 колонку без графики.
+    </div>
+  </div>
+
+  <script>
+    const root = document.getElementById('root');
+    const toggleBtn = document.getElementById('toggleEdit');
+    const saveBtn = document.getElementById('save');
+    const resetBtn = document.getElementById('reset');
+    const uiToggleBtn = document.getElementById('uiToggle');
+    const addSectionBtn = document.getElementById('addSectionBtn');
+
+    const avatar = document.getElementById('avatar');
+    const avatarBtn = document.getElementById('avatarBtn');
+    const avatarInput = document.getElementById('avatarInput');
+
+    let editing = false;
+    let draggedElement = null;
+
+    function getEditables(){
+      return Array.from(root.querySelectorAll('.editable[data-key]'));
+    }
+
+    function setEditing(on){
+      editing = on;
+      getEditables().forEach(el => el.setAttribute('contenteditable', on ? 'true' : 'false'));
+      
+      // Make h2 (section titles) editable
+      document.querySelectorAll('section h2').forEach(h2 => {
+        h2.setAttribute('contenteditable', on ? 'true' : 'false');
+      });
+      
+      toggleBtn.textContent = on ? 'Готово' : 'Редактировать';
+      toggleBtn.classList.toggle('primary', !on);
+      saveBtn.classList.toggle('primary', on);
+
+      // show photo change button only in edit mode
+      avatarBtn.style.display = on ? 'flex' : 'none';
+      
+      // show add section button only in edit mode
+      addSectionBtn.style.display = on ? 'block' : 'none';
+
+      // Toggle editing mode class
+      document.body.classList.toggle('editing-active', on);
+
+      // Make items draggable in edit mode
+      document.querySelectorAll('.item, section').forEach(el => {
+        el.classList.toggle('editing', on);
+        if (el.classList.contains('item')) {
+          el.draggable = on;
+        }
+      });
+    }
+
+    function setUiHidden(on){
+      document.body.classList.toggle('ui-hidden', on);
+      uiToggleBtn.title = on ? 'Показать подсказки и кнопки' : 'Скрыть подсказки и кнопки';
+      uiToggleBtn.setAttribute('aria-label', uiToggleBtn.title);
+    }
+
+    // Add controls to items
+    function initializeBlockControls() {
+      document.querySelectorAll('.item').forEach((item, idx) => {
+        if (item.querySelector('.block-controls')) return;
+
+        const controls = document.createElement('div');
+        controls.className = 'block-controls';
+
+        // Move up button
+        const upBtn = document.createElement('button');
+        upBtn.className = 'move-up';
+        upBtn.textContent = '↑';
+        upBtn.title = 'Переместить вверх';
+        upBtn.type = 'button';
+        upBtn.onclick = (e) => moveItemUp(e, item);
+
+        // Move down button
+        const downBtn = document.createElement('button');
+        downBtn.className = 'move-down';
+        downBtn.textContent = '↓';
+        downBtn.title = 'Переместить вниз';
+        downBtn.type = 'button';
+        downBtn.onclick = (e) => moveItemDown(e, item);
+
+        // Delete button
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete';
+        deleteBtn.textContent = '✕';
+        deleteBtn.title = 'Удалить блок';
+        deleteBtn.type = 'button';
+        deleteBtn.onclick = deleteItemHandler;
+
+        controls.appendChild(upBtn);
+        controls.appendChild(downBtn);
+        controls.appendChild(deleteBtn);
+        item.appendChild(controls);
+      });
+
+      // Add section controls
+      document.querySelectorAll('section').forEach(section => {
+        const h2 = section.querySelector('h2');
+        if (!h2 || h2.querySelector('.section-toolbar')) return;
+
+        const toolbar = document.createElement('div');
+        toolbar.className = 'section-toolbar';
+
+        // Add item button
+        const addBtn = document.createElement('button');
+        addBtn.className = 'add';
+        addBtn.textContent = '+ Item';
+        addBtn.title = 'Добавить элемент';
+        addBtn.type = 'button';
+        addBtn.onclick = (e) => addItemToSectionHandler(e, section);
+
+        toolbar.appendChild(addBtn);
+        h2.appendChild(toolbar);
+      });
+    }
+
+    function moveItemUp(e, item) {
+      e.stopPropagation();
+      const prev = item.previousElementSibling;
+      if (prev && prev.classList.contains('item')) {
+        item.parentNode.insertBefore(item, prev);
+        saveStructure();
+      }
+    }
+
+    function moveItemDown(e, item) {
+      e.stopPropagation();
+      const next = item.nextElementSibling;
+      if (next && next.classList.contains('item')) {
+        item.parentNode.insertBefore(next, item);
+        saveStructure();
+      }
+    }
+
+    function deleteItemHandler(e) {
+      e.stopPropagation();
+      const item = this.closest('.item');
+      if (!item) return;
+      if (confirm('Удалить этот блок?')) {
+        // Add deleting animation
+        item.classList.add('deleting');
+        // Remove after animation
+        setTimeout(() => {
+          item.remove();
+          saveStructure();
+        }, 300);
+      }
+    }
+
+    function addItemToSectionHandler(e, section) {
+      e.stopPropagation();
+      addItemToSection(section);
+    }
+
+    function addItemToSection(section) {
+      const existingItem = section.querySelector('.item');
+      let newItem;
+
+      if (existingItem) {
+        // Clone structure from existing item
+        const template = existingItem.cloneNode(true);
+        
+        // Clear text content but keep structure
+        template.querySelectorAll('[contenteditable]').forEach(el => {
+          el.innerHTML = '';
+        });
+        
+        // Remove old controls
+        template.querySelectorAll('.block-controls').forEach(el => el.remove());
+        
+        newItem = template;
+      }
+
+      if (newItem) {
+        newItem.className = 'item draggable editable new-item';
+        newItem.draggable = editing;
+        newItem.setAttribute('contenteditable', editing ? 'true' : 'false');
+        
+        // Add to section
+        const lastItem = section.querySelector('.item:last-of-type');
+        if (lastItem) {
+          lastItem.after(newItem);
+        } else {
+          const h2 = section.querySelector('h2');
+          if (h2) {
+            h2.after(newItem);
+          } else {
+            section.appendChild(newItem);
+          }
+        }
+        
+        // Remove animation class after animation completes
+        setTimeout(() => {
+          newItem.classList.remove('new-item');
+        }, 300);
+        
+        // Setup controls and listeners
+        initializeBlockControls();
+        setupDragListeners(newItem);
+        saveStructure();
+        newItem.focus();
+      }
+    }
+
+    // Add new section
+    function showAddSectionDialog() {
+      const dialogOverlay = document.getElementById('dialogOverlay');
+      const newSectionDialog = document.getElementById('newSectionDialog');
+      const sectionNameInput = document.getElementById('sectionNameInput');
+      const confirmAddBtn = document.getElementById('confirmAddSection');
+      const cancelAddBtn = document.getElementById('cancelAddSection');
+
+      dialogOverlay.classList.add('show');
+      newSectionDialog.classList.add('show');
+      sectionNameInput.value = '';
+      sectionNameInput.focus();
+
+      const finalize = () => {
+        dialogOverlay.classList.remove('show');
+        newSectionDialog.classList.remove('show');
+      };
+
+      const addSection = () => {
+        const name = sectionNameInput.value.trim();
+        if (!name) {
+          alert('Введи название секции');
+          return;
+        }
+        createNewSection(name);
+        finalize();
+      };
+
+      confirmAddBtn.onclick = addSection;
+      cancelAddBtn.onclick = finalize;
+      sectionNameInput.onkeypress = (e) => {
+        if (e.key === 'Enter') addSection();
+        if (e.key === 'Escape') finalize();
+      };
+    }
+
+    function createNewSection(name) {
+      const main = document.querySelector('main > div');
+      if (!main) return;
+
+      const newSection = document.createElement('section');
+      newSection.className = 'new-section';
+      newSection.innerHTML = `
+        <h2>${name}</h2>
+        <div class="item draggable editable">
+          <div class="top">
+            <div class="title">Новый элемент</div>
+          </div>
+        </div>
+      `;
+
+      main.appendChild(newSection);
+
+      setTimeout(() => {
+        newSection.classList.remove('new-section');
+      }, 400);
+
+      initializeBlockControls();
+      document.querySelectorAll('.item').forEach(item => {
+        setupDragListeners(item);
+      });
+
+      saveStructure();
+    }
+
+    function setupDragListeners(element) {
+      element.addEventListener('dragstart', handleDragStart);
+      element.addEventListener('dragend', handleDragEnd);
+      element.addEventListener('dragover', handleDragOver);
+      element.addEventListener('drop', handleDrop);
+      element.addEventListener('dragenter', handleDragEnter);
+      element.addEventListener('dragleave', handleDragLeave);
+    }
+
+    function handleDragStart(e) {
+      draggedElement = this;
+      this.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/html', this.innerHTML);
+    }
+
+    function handleDragEnd(e) {
+      this.classList.remove('dragging');
+      document.querySelectorAll('.item').forEach(el => {
+        el.classList.remove('drag-over');
+      });
+      document.querySelectorAll('.drop-target').forEach(el => {
+        el.classList.remove('active');
+        el.remove();
+      });
+      draggedElement = null;
+    }
+
+    function handleDragOver(e) {
+      if (e.preventDefault) {
+        e.preventDefault();
+      }
+      e.dataTransfer.dropEffect = 'move';
+      return false;
+    }
+
+    function handleDragEnter(e) {
+      if (this !== draggedElement && this.classList.contains('item')) {
+        this.classList.add('drag-over');
+      }
+    }
+
+    function handleDragLeave(e) {
+      if (e.target === this) {
+        this.classList.remove('drag-over');
+      }
+    }
+
+    function handleDrop(e) {
+      if (e.stopPropagation) {
+        e.stopPropagation();
+      }
+
+      if (draggedElement && this !== draggedElement && this.classList.contains('item')) {
+        // Swap elements
+        const temp = document.createElement('div');
+        draggedElement.parentNode.insertBefore(temp, draggedElement);
+        this.parentNode.insertBefore(draggedElement, this);
+        temp.parentNode.insertBefore(this, temp);
+        temp.parentNode.removeChild(temp);
+
+        this.classList.remove('drag-over');
+        draggedElement.classList.remove('dragging');
+        saveStructure();
+      }
+
+      return false;
+    }
+
+    function loadText(){
+      getEditables().forEach(el => {
+        const key = el.dataset.key;
+        const v = localStorage.getItem('resume_' + key);
+        if (v !== null) el.innerHTML = v;
+      });
+      
+      // Load section titles (h2)
+      document.querySelectorAll('section h2').forEach((h2, idx) => {
+        const saved = localStorage.getItem('resume_section_title_' + idx);
+        if (saved !== null) h2.textContent = saved;
+      });
+    }
+
+    function saveText(){
+      getEditables().forEach(el => {
+        const key = el.dataset.key;
+        localStorage.setItem('resume_' + key, el.innerHTML);
+      });
+      
+      // Save section titles (h2)
+      document.querySelectorAll('section h2').forEach((h2, idx) => {
+        localStorage.setItem('resume_section_title_' + idx, h2.textContent);
+      });
+    }
+
+    function loadAvatar(){
+      const saved = localStorage.getItem('resume_avatar');
+      if (saved) {
+        avatar.src = saved;
+      } else {
+        const svg =
+          `<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+            <defs>
+              <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffffff"/>
+                <stop offset="1" stop-color="#f2f2f4"/>
+              </linearGradient>
+            </defs>
+            <rect width="160" height="160" rx="28" fill="url(#g)"/>
+            <circle cx="80" cy="68" r="26" fill="rgba(29,29,31,.18)"/>
+            <path d="M32 140c10-28 36-42 48-42s38 14 48 42" fill="rgba(29,29,31,.18)"/>
+          </svg>`;
+        avatar.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+      }
+    }
+
+    function saveStructure() {
+      saveText();
+      const sections = document.querySelectorAll('section');
+      const structure = {};
+
+      sections.forEach(section => {
+        const h2 = section.querySelector('h2');
+        if (!h2) return;
+
+        const sectionName = h2.textContent.trim();
+        const items = Array.from(section.querySelectorAll('.item')).map(item => ({
+          html: item.innerHTML,
+          class: item.className
+        }));
+
+        structure[sectionName] = items;
+      });
+
+      localStorage.setItem('resume_structure', JSON.stringify(structure));
+    }
+
+    function loadStructure() {
+      const saved = localStorage.getItem('resume_structure');
+      if (!saved) return;
+
+      try {
+        const structure = JSON.parse(saved);
+        const sections = document.querySelectorAll('section');
+
+        sections.forEach(section => {
+          const h2 = section.querySelector('h2');
+          if (!h2) return;
+
+          const sectionName = h2.textContent.trim();
+          if (!structure[sectionName]) return;
+
+          const items = section.querySelectorAll('.item');
+          items.forEach(item => item.remove());
+
+          structure[sectionName].forEach(itemData => {
+            const item = document.createElement('div');
+            item.className = itemData.class;
+            item.draggable = false;
+            item.innerHTML = itemData.html;
+
+            section.appendChild(item);
+            setupDragListeners(item);
+          });
+        });
+
+        initializeBlockControls();
+      } catch (err) {
+        console.error('Ошибка загрузки структуры:', err);
+      }
+    }
+
+    async function fileToResizedDataURL(file, maxSize=640, quality=0.86){
+      const bitmap = await createImageBitmap(file);
+      const ratio = Math.min(1, maxSize / Math.max(bitmap.width, bitmap.height));
+      const w = Math.round(bitmap.width * ratio);
+      const h = Math.round(bitmap.height * ratio);
+
+      const canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(bitmap, 0, 0, w, h);
+
+      return canvas.toDataURL('image/jpeg', quality);
+    }
+
+    function getCurrentHtml(){
+      return '<!doctype html>\n' + document.documentElement.outerHTML;
+    }
+
+    function saveByDownload(filename='resume2.html'){
+      try{
+        const blob = new Blob([getCurrentHtml()], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        return true;
+      }catch(err){
+        console.error(err);
+        return false;
+      }
+    }
+
+    async function saveToFile(){
+      if (window.showSaveFilePicker) {
+        try{
+          const handle = await window.showSaveFilePicker({
+            suggestedName: 'resume2.html',
+            types: [
+              {
+                description: 'HTML file',
+                accept: { 'text/html': ['.html'] }
+              }
+            ]
+          });
+          const writable = await handle.createWritable();
+          await writable.write(getCurrentHtml());
+          await writable.close();
+          return 'direct';
+        }catch(err){
+          if (err && err.name === 'AbortError') return 'cancelled';
+          console.error(err);
+          return 'failed';
+        }
+      }
+
+      return saveByDownload() ? 'download' : 'failed';
+    }
+
+    async function saveAll(){
+      saveStructure();
+      const fileSaved = await saveToFile();
+      if (fileSaved === 'direct') {
+        alert('Сохранено в файл и локально ✅');
+      } else if (fileSaved === 'download') {
+        alert('Сохранено локально ✅\nДля Firefox загружен обновлённый HTML-файл.');
+      } else if (fileSaved === 'failed') {
+        alert('Сохранено локально в браузере ✅\nСохранение в файл не удалось.');
+      } else {
+        alert('Сохранено локально в браузере ✅');
+      }
+    }
+
+    function resetAll(){
+      if (!confirm('Сбросить все изменения (включая фото)?')) return;
+      getEditables().forEach(el => localStorage.removeItem('resume_' + el.dataset.key));
+      localStorage.removeItem('resume_avatar');
+      localStorage.removeItem('resume_structure');
+      // Remove saved section titles
+      for (let i = 0; i < 20; i++) {
+        localStorage.removeItem('resume_section_title_' + i);
+      }
+      location.reload();
+    }
+
+    toggleBtn.addEventListener('click', () => setEditing(!editing));
+    saveBtn.addEventListener('click', saveAll);
+    resetBtn.addEventListener('click', resetAll);
+    
+    // Add section button
+    if (addSectionBtn) {
+      addSectionBtn.addEventListener('click', showAddSectionDialog);
+    }
+    uiToggleBtn.addEventListener('click', () => setUiHidden(!document.body.classList.contains('ui-hidden')));
+
+    avatarBtn.addEventListener('click', () => avatarInput.click());
+    avatar.addEventListener('click', () => { if (editing) avatarInput.click(); });
+
+    avatarInput.addEventListener('change', async (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        alert('Пожалуйста, выбери изображение.');
+        return;
+      }
+      try{
+        const dataUrl = await fileToResizedDataURL(file);
+        avatar.src = dataUrl;
+        localStorage.setItem('resume_avatar', dataUrl);
+      }catch(err){
+        console.error(err);
+        alert('Не удалось загрузить фото. Попробуй другое изображение.');
+      }finally{
+        avatarInput.value = '';
+      }
+    });
+
+    // Init
+    loadText();
+    loadAvatar();
+    loadStructure();
+    initializeBlockControls();
+    
+    // Setup drag listeners for existing items
+    document.querySelectorAll('.item, section').forEach(el => {
+      setupDragListeners(el);
+    });
+
+    setEditing(false);
+  </script>
+
+  <!-- Dialog overlay and new section dialog -->
+  <div id="dialogOverlay" class="dialog-overlay"></div>
+  <div id="newSectionDialog" class="new-section-dialog">
+    <h3>Добавить новую секцию</h3>
+    <input id="sectionNameInput" type="text" placeholder="Название секции">
+    <div class="dialog-buttons">
+      <button id="cancelAddSection" type="button" class="cancel-btn">Отмена</button>
+      <button id="confirmAddSection" type="button" class="primary">Добавить</button>
+    </div>
+  </div>
+
+
+</body></html>
