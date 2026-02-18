@@ -827,6 +827,53 @@
       uiToggleBtn.setAttribute('aria-label', uiToggleBtn.title);
     }
 
+    // Apply app settings: disable editing UI for everyone when flag set, otherwise apply owner-based UI
+    function applyOwnerState(info){
+      const isOwner = info && info.isOwner;
+      window.__isOwner = !!isOwner;
+      if (!isOwner) {
+        // Turn off contenteditable and hide edit controls for non-owners
+        getEditables().forEach(el => el.setAttribute('contenteditable', 'false'));
+        document.querySelectorAll('section h2').forEach(h2 => h2.setAttribute('contenteditable', 'false'));
+        document.querySelectorAll('.controls button').forEach(b => { if (b.id !== 'save') b.style.display = 'none'; });
+        document.querySelectorAll('.section-toolbar, .block-controls, .avatarBtn, #addSectionBtn').forEach(el => { if (el) el.style.display = 'none'; });
+
+        // Add a small read-only notice if not present
+        if (!document.getElementById('readOnlyNotice')) {
+          const notice = document.createElement('div');
+          notice.id = 'readOnlyNotice';
+          notice.style = 'padding:10px;border-radius:8px;background:rgba(255,245,230,0.9);margin-bottom:12px;text-align:center;font-weight:600;';
+          notice.textContent = 'Просмотр только: у вас нет прав на редактирование этого резюме.';
+          document.querySelector('.wrap').insertBefore(notice, document.querySelector('.card'));
+        }
+      }
+    }
+
+    function applyAppSettings(info){
+      const isOwner = info && info.isOwner;
+      const disabled = info && info.disableEditing;
+      window.__isOwner = !!isOwner;
+
+      if (disabled) {
+        // Completely read-only mode
+        getEditables().forEach(el => el.setAttribute('contenteditable', 'false'));
+        document.querySelectorAll('section h2').forEach(h2 => h2.setAttribute('contenteditable', 'false'));
+        document.querySelectorAll('.controls button').forEach(b => { if (b.id !== 'save') b.style.display = 'none'; });
+        document.querySelectorAll('.section-toolbar, .block-controls, .avatarBtn, #addSectionBtn').forEach(el => { if (el) el.style.display = 'none'; });
+
+        if (!document.getElementById('readOnlyNotice')) {
+          const notice = document.createElement('div');
+          notice.id = 'readOnlyNotice';
+          notice.style = 'padding:10px;border-radius:8px;background:rgba(255,245,230,0.95);margin-bottom:12px;text-align:center;font-weight:700;';
+          notice.textContent = 'Редактирование отключено владельцем — только просмотр.';
+          document.querySelector('.wrap').insertBefore(notice, document.querySelector('.card'));
+        }
+      } else {
+        // If not disabled, apply owner-based visibility
+        applyOwnerState(info);
+      }
+    }
+
     function initializeBlockControls() {
       document.querySelectorAll('.item').forEach((item, idx) => {
         if (item.querySelector('.block-controls')) return;
@@ -1130,7 +1177,12 @@
         dataToSave['section_title_' + idx] = h2.textContent;
       });
 
-      google.script.run.saveAllData(dataToSave);
+      google.script.run
+        .withFailureHandler(function(err){
+          alert('Сохранение не выполнено: ' + (err && err.message ? err.message : err));
+        })
+        .withSuccessHandler(function(){ /* saved */ })
+        .saveAllData(dataToSave);
     }
 
     /**
@@ -1171,7 +1223,10 @@
       // Сохраняем аватар если был загружен
       if (avatarInput.files.length > 0) {
         const file = avatarInput.files[0];
-        google.script.run.uploadAvatar(file);
+        google.script.run
+          .withFailureHandler(function(err){ alert('Загрузка фото не выполнена: ' + (err && err.message ? err.message : err)); })
+          .withSuccessHandler(function(){ /* avatar uploaded */ })
+          .uploadAvatar(file);
       }
       
       alert('Сохранено в Google Apps Script ✅');
@@ -1206,8 +1261,11 @@
         };
         reader.readAsDataURL(file);
         
-        // Отправить в Google Apps Script
-        google.script.run.uploadAvatar(file);
+        // Отправить в Google Apps Script (покажем ошибку если отсутствуют права)
+        google.script.run
+          .withFailureHandler(function(err){ alert('Загрузка фото не выполнена: ' + (err && err.message ? err.message : err)); })
+          .withSuccessHandler(function(){ /* uploaded */ })
+          .uploadAvatar(file);
       } catch(err){
         console.error(err);
         alert('Не удалось загрузить фото. Попробуй другое изображение.');
@@ -1219,8 +1277,11 @@
     // Инициализация
     loadText();
     loadAvatar();
+
+    // Fetch app settings (includes disableEditing + owner info)
+    google.script.run.withSuccessHandler(applyAppSettings).getAppSettings();
+
     initializeBlockControls();
-    
     document.querySelectorAll('.item, section').forEach(el => {
       setupDragListeners(el);
     });
